@@ -1,4 +1,5 @@
-#!/usr/bin/python                                                                                                                                                                                                                                                                  
+#!/usr/bin/python
+# Copyright (C) 2012 Ali Imran Jehangiri
 import os
 import sys
 import time
