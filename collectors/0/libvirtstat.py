@@ -53,7 +53,7 @@ import sys
 import time
 import socket
 import re
-
+import pprint
 import libvirt
 import libxml2
 
@@ -98,9 +98,10 @@ def main():
 		domain 		= lv.lookupByID(domain_id)
 		domain_name	= domain.name()
 		infos 		= domain.info()
-
 		# Parse domain XML definition for devices
-
+                #pprint.pprint(dir(domain))
+                uid = domain.UUIDString()
+                #print("uid= %s"           % (uid))
     		xml 		= domain.XMLDesc(0)
     		document 	= None
     		try:
@@ -116,12 +117,12 @@ def main():
 
 		# Data from "virDomainInfo" structure
 
-		print("virt.domain.state %d %s vm=%s" 		% (ts, infos[0], domain_name))
-		print("virt.domain.max_mem %d %s vm=%s"		% (ts, infos[1], domain_name))
-		print("virt.domain.memory %d %s vm=%s"		% (ts, infos[2], domain_name))
+		print("virt.domain.state %d %s vm=%s" 		% (ts, infos[0], uid))
+		print("virt.domain.max_mem %d %s vm=%s"		% (ts, infos[1], uid))
+		print("virt.domain.memory %d %s vm=%s"		% (ts, infos[2], uid))
 
-                print("virt.domain.nr_virt_cpu %d %s vm=%s"  	% (ts, infos[3], domain_name))
-                print("virt.domain.cpu_time %d %s vm=%s"  	% (ts, infos[4] / 1000000, domain_name))
+                print("virt.domain.nr_virt_cpu %d %s vm=%s"  	% (ts, infos[3], uid))
+                print("virt.domain.cpu_time %d %s vm=%s"  	% (ts, infos[4] / 1000000, uid))
 
 		# Data from "virDomainInterfaceStatsStruct" structure
 
@@ -129,14 +130,14 @@ def main():
 			
 			interface_stats = domain.interfaceStats(interface)
 
-			print("virt.domain.interface.rx_bytes %d %s vm=%s interface=%s" 	% (ts, interface_stats[0], domain_name, interface))
-                        print("virt.domain.interface.rx_packets %d %s vm=%s interface=%s" 	% (ts, interface_stats[1], domain_name, interface))
-                        print("virt.domain.interface.rx_errs %d %s vm=%s interface=%s" 		% (ts, interface_stats[2], domain_name, interface))
-                        print("virt.domain.interface.rx_drop %d %s vm=%s interface=%s" 		% (ts, interface_stats[3], domain_name, interface))
-                        print("virt.domain.interface.tx_bytes %d %s vm=%s interface=%s" 	% (ts, interface_stats[4], domain_name, interface))
-                        print("virt.domain.interface.tx_packets %d %s vm=%s interface=%s" 	% (ts, interface_stats[5], domain_name, interface))
-                        print("virt.domain.interface.tx_errs %d %s vm=%s interface=%s" 		% (ts, interface_stats[6], domain_name, interface))
-                        print("virt.domain.interface.tx_drop %d %s vm=%s interface=%s" 		% (ts, interface_stats[7], domain_name, interface))
+			print("virt.domain.interface.rx_bytes %d %s vm=%s interface=%s" 	% (ts, interface_stats[0], uid, interface))
+                        print("virt.domain.interface.rx_packets %d %s vm=%s interface=%s" 	% (ts, interface_stats[1], uid, interface))
+                        print("virt.domain.interface.rx_errs %d %s vm=%s interface=%s" 		% (ts, interface_stats[2], uid, interface))
+                        print("virt.domain.interface.rx_drop %d %s vm=%s interface=%s" 		% (ts, interface_stats[3], uid, interface))
+                        print("virt.domain.interface.tx_bytes %d %s vm=%s interface=%s" 	% (ts, interface_stats[4], uid, interface))
+                        print("virt.domain.interface.tx_packets %d %s vm=%s interface=%s" 	% (ts, interface_stats[5], uid, interface))
+                        print("virt.domain.interface.tx_errs %d %s vm=%s interface=%s" 		% (ts, interface_stats[6], uid, interface))
+                        print("virt.domain.interface.tx_drop %d %s vm=%s interface=%s" 		% (ts, interface_stats[7], uid, interface))
 
 		# Data from "virDomainBlockStatsStruct" structure
 
@@ -144,11 +145,11 @@ def main():
 
 			block_stats = domain.blockStats(disk)
 
-			print("virt.domain.disk.rd_req %d %s vm=%s disk=%s"			% (ts, block_stats[0], domain_name, disk))
-                        print("virt.domain.disk.rd_bytes %d %s vm=%s disk=%s"                  	% (ts, block_stats[1], domain_name, disk))
-                        print("virt.domain.disk.wr_req %d %s vm=%s disk=%s"                   	% (ts, block_stats[2], domain_name, disk))
-                        print("virt.domain.disk.wr_bytes %d %s vm=%s disk=%s"                 	% (ts, block_stats[3], domain_name, disk))
-                        print("virt.domain.disk.errs %d %s vm=%s disk=%s"                     	% (ts, block_stats[4], domain_name, disk))
+			print("virt.domain.disk.rd_req %d %s vm=%s disk=%s"			% (ts, block_stats[0], uid, disk))
+                        print("virt.domain.disk.rd_bytes %d %s vm=%s disk=%s"                  	% (ts, block_stats[1], uid, disk))
+                        print("virt.domain.disk.wr_req %d %s vm=%s disk=%s"                   	% (ts, block_stats[2], uid, disk))
+                        print("virt.domain.disk.wr_bytes %d %s vm=%s disk=%s"                 	% (ts, block_stats[3], uid, disk))
+                        print("virt.domain.disk.errs %d %s vm=%s disk=%s"                     	% (ts, block_stats[4], uid, disk))
 
         sys.stdout.flush()
         time.sleep(COLLECTION_INTERVAL)
