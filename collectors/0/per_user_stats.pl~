@@ -1,10 +1,5 @@
-
 #!/usr/bin/perl
-###########################################################################
-# Author: Ali Imran Jehangiri
-# Last Changed: 
-# Collects per user stats
-###########################################################################
+#
 # a simple script to report per user stats for openshift users to opentsdb
 
 $COLLECTION_INTERVAL=1;
