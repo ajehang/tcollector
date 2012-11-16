@@ -75,12 +75,12 @@ def main(argv):
                 continue
             #ignore diy metrics
             if len(line)<100:
-                print line            
-			#metric, timestamp, value = line.split(",",3);
-            #print metric
+                #print line.rstrip()
+                sys.stdout.write("%s\n" %(line))				            
+        sys.stdout.flush()			
     finally:
         kill(oshift)
-        time.sleep(10)
+        time.sleep(60)
         return 0  # Ask the tcollector to re-spawn us.
 
 
